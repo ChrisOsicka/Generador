@@ -59,6 +59,28 @@ namespace Generador
             }
         }
 
+        private void Epsilon()
+        {
+             if (esPalabraReservada(getContenido()))
+            {
+                generado.WriteLine("            match(Tipos." + getContenido() + ");");
+                match(Tipos.SNT);
+            }
+            else if (getClasificacion() == Tipos.ST)
+            {
+                generado.WriteLine("            match(\"" + getContenido() + "\");");
+                match(Tipos.ST);
+            }
+            else if (getClasificacion() == Tipos.SNT)
+            {
+                generado.WriteLine("            " + getContenido() + "();");
+                match(Tipos.SNT);
+            }
+            if (getClasificacion() == Tipos.PDer)
+            {
+                Epsilon();
+            }
+        }
 
         private void listaSimbolos()
         {
@@ -112,28 +134,6 @@ namespace Generador
         
         }
         
-        private void Epsilon()
-        {
-             if (esPalabraReservada(getContenido()))
-            {
-                generado.WriteLine("            match(Tipos." + getContenido() + ");");
-                match(Tipos.SNT);
-            }
-            else if (getClasificacion() == Tipos.ST)
-            {
-                generado.WriteLine("            match(\"" + getContenido() + "\");");
-                match(Tipos.ST);
-            }
-            else if (getClasificacion() == Tipos.SNT)
-            {
-                generado.WriteLine("            " + getContenido() + "();");
-                match(Tipos.SNT);
-            }
-            if (getClasificacion() == Tipos.PDer)
-            {
-                Epsilon();
-            }
-        }
 
         private bool esPalabraReservada(string palabra)
         {
